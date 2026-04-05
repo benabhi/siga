@@ -48,7 +48,7 @@ class AppLayoutState(rx.State):
 # HEADER SIDEBAR
 # ==============================================================================
 
-def section_sidebar_header() -> rx.Component:
+def _sidebar_header() -> rx.Component:
     """Header del sidebar con icono y título SIGA."""
     return rx.center(
         rx.hstack(
@@ -66,7 +66,7 @@ def section_sidebar_header() -> rx.Component:
 # ITEM SIDEBAR
 # ==============================================================================
 
-def comp_sidebar_item(item) -> rx.Component:
+def _sidebar_item(item) -> rx.Component:
     """Renderiza un item del sidebar usando el tag directo."""
 
     label = item["label"]
@@ -102,13 +102,13 @@ def comp_sidebar_item(item) -> rx.Component:
 # MENU SIDEBAR
 # ==============================================================================
 
-def section_sidebar_menu() -> rx.Component:
+def _sidebar_menu() -> rx.Component:
     """Renderiza menú filtrado por rol usando la var del sub-estado."""
 
     return rx.vstack(
         rx.foreach(
             AppLayoutState.filtered_menu,
-            lambda item: comp_sidebar_item(item)
+            lambda item: _sidebar_item(item)
         ),
         width="100%",
         flex="1",
@@ -124,7 +124,7 @@ def section_sidebar_menu() -> rx.Component:
 # FOOTER SIDEBAR
 # ==============================================================================
 
-def section_sidebar_footer() -> rx.Component:
+def _sidebar_footer() -> rx.Component:
     """Footer con datos del AppState global."""
 
     return rx.vstack(
@@ -189,12 +189,12 @@ def section_sidebar_footer() -> rx.Component:
 # SIDEBAR DESKTOP
 # ==============================================================================
 
-def layout_sidebar() -> rx.Component:
+def _sidebar() -> rx.Component:
     """Sidebar versión desktop."""
     return rx.vstack(
-        section_sidebar_header(),
-        section_sidebar_menu(),
-        section_sidebar_footer(),
+        _sidebar_header(),
+        _sidebar_menu(),
+        _sidebar_footer(),
         display=["none", "none", "none", "flex", "flex"],
         width=["0px", "0px", "0px", "250px", "250px"],
         height="100vh",
@@ -208,7 +208,7 @@ def layout_sidebar() -> rx.Component:
 # SIDEBAR MOBILE (DRAWER)
 # ==============================================================================
 
-def layout_sidebar_drawer() -> rx.Component:
+def _sidebar_drawer() -> rx.Component:
     """Sidebar versión mobile tipo drawer."""
     return rx.box(
         rx.cond(
@@ -226,9 +226,9 @@ def layout_sidebar_drawer() -> rx.Component:
         ),
         rx.box(
             rx.vstack(
-                section_sidebar_header(),
-                section_sidebar_menu(),
-                section_sidebar_footer(),
+                _sidebar_header(),
+                _sidebar_menu(),
+                _sidebar_footer(),
                 spacing="0",
                 height="100%",
             ),
@@ -250,7 +250,7 @@ def layout_sidebar_drawer() -> rx.Component:
 # HEADER PRINCIPAL
 # ==============================================================================
 
-def layout_header(title: str) -> rx.Component:
+def _header(title: str) -> rx.Component:
     """Header con título pasado por argumento."""
     return rx.flex(
         rx.icon_button(
@@ -284,10 +284,10 @@ def layout_header(title: str) -> rx.Component:
 # MAIN
 # ==============================================================================
 
-def layout_main(content: rx.Component, title: str) -> rx.Component:
+def _main(content: rx.Component, title: str) -> rx.Component:
     """Contenedor que recibe el título y lo pasa al header."""
     return rx.vstack(
-        layout_header(title),
+        _header(title),
         rx.box(content, width="100%", padding="2em"),
         flex="1",
         width="100%",
@@ -309,10 +309,10 @@ def layout_app(content: rx.Component, title: str = "") -> rx.Component:
     return rx.box(
         # --- EL MOTOR DE TOASTS ---
         rx.toast.provider(),
-        layout_sidebar_drawer(),
+        _sidebar_drawer(),
         rx.hstack(
-            layout_sidebar(),
-            layout_main(content, title),
+            _sidebar(),
+            _main(content, title),
             width="100%",
             height="100vh",
             spacing="0",

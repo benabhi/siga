@@ -65,7 +65,122 @@ class LoginState(rx.State):
 
 
 # ==============================================================================
-# COMPONENTE DE PÁGINA
+# SECCIONES DE LA PÁGINA
+# ==============================================================================
+
+def _login_header() -> rx.Component:
+    """Logo e identidad institucional."""
+    return rx.vstack(
+        rx.center(
+            rx.icon("graduation-cap", size=40, color="white"),
+            width="80px",
+            height="80px",
+            border_radius="20px",
+            bg=rx.color("accent", 9),
+            box_shadow=f"0 10px 15px -3px {rx.color('accent', 4)}",
+        ),
+        rx.heading("SIGA Viedma", size="8", weight="bold"),
+        rx.text(
+            "Sistema de Gestión Académica",
+            color=rx.color("gray", 11),
+            size="3",
+            weight="medium"
+        ),
+        spacing="3",
+        align="center",
+        margin_bottom="1.5em",
+    )
+
+
+def _login_form() -> rx.Component:
+    """Tarjeta con formulario de credenciales."""
+    return rx.card(
+        rx.form(
+            rx.vstack(
+                # Campo: Email
+                rx.vstack(
+                    rx.text("Correo Electrónico", size="2", weight="bold"),
+                    rx.input(
+                        placeholder="usuario@correo.com",
+                        on_change=LoginState.set_email,
+                        width="100%",
+                        variant="surface",
+                        type="email",
+                        name="email",
+                        required=True,
+                    ),
+                    align_items="start",
+                    width="100%",
+                    spacing="1",
+                ),
+
+                # Campo: Password
+                rx.vstack(
+                    rx.text("Contraseña", size="2", weight="bold"),
+                    rx.input(
+                        type="password",
+                        placeholder="••••••••",
+                        on_change=LoginState.set_password,
+                        width="100%",
+                        variant="surface",
+                        name="password",
+                        required=True,
+                    ),
+                    align_items="start",
+                    width="100%",
+                    spacing="1",
+                ),
+
+                # Botón de Acción (type="submit" para capturar Enter)
+                rx.button(
+                    "Iniciar Sesión",
+                    loading=LoginState.is_loading,
+                    width="100%",
+                    size="3",
+                    cursor="pointer",
+                    margin_top="0.5em",
+                    bg=rx.color("accent", 9),
+                    color="white",
+                    _hover={"bg": rx.color("accent", 10)},
+                    type="submit",
+                ),
+                spacing="4",
+                width="320px",
+            ),
+            on_submit=LoginState.handle_login,
+            reset_on_submit=False,
+        ),
+        padding="2.5em",
+        variant="surface",
+        style={
+            "box_shadow": "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            "border_radius": "15px"
+        },
+    )
+
+
+def _login_footer() -> rx.Component:
+    """Pie institucional."""
+    return rx.vstack(
+        rx.text(
+            "Ministerio de Educación y Derechos Humanos",
+            size="1",
+            color=rx.color("gray", 10),
+            weight="medium",
+        ),
+        rx.text(
+            "Provincia de Río Negro",
+            size="1",
+            color=rx.color("gray", 9),
+        ),
+        spacing="0",
+        align="center",
+        margin_top="2em",
+    )
+
+
+# ==============================================================================
+# PÁGINA PÚBLICA
 # ==============================================================================
 
 def login_page() -> rx.Component:
@@ -80,109 +195,9 @@ def login_page() -> rx.Component:
         ),
 
         rx.vstack(
-            # --- SECCIÓN SUPERIOR: LOGO E IDENTIDAD ---
-            rx.vstack(
-                rx.center(
-                    rx.icon("graduation-cap", size=40, color="white"),
-                    width="80px",
-                    height="80px",
-                    border_radius="20px",
-                    bg=rx.color("accent", 9),
-                    box_shadow=f"0 10px 15px -3px {rx.color('accent', 4)}",
-                ),
-                rx.heading("SIGA Viedma", size="8", weight="bold"),
-                rx.text(
-                    "Sistema de Gestión Académica",
-                    color=rx.color("gray", 11),
-                    size="3",
-                    weight="medium"
-                ),
-                spacing="3",
-                align="center",
-                margin_bottom="1.5em",
-            ),
-
-            # --- TARJETA DE FORMULARIO (Soporta Enter) ---
-            rx.card(
-                rx.form(
-                    rx.vstack(
-                        # Campo: Email
-                        rx.vstack(
-                            rx.text("Correo Electrónico", size="2", weight="bold"),
-                            rx.input(
-                                placeholder="usuario@correo.com",
-                                on_change=LoginState.set_email,
-                                width="100%",
-                                variant="surface",
-                                type="email",
-                                name="email",
-                            ),
-                            align_items="start",
-                            width="100%",
-                            spacing="1",
-                        ),
-
-                        # Campo: Password
-                        rx.vstack(
-                            rx.text("Contraseña", size="2", weight="bold"),
-                            rx.input(
-                                type="password",
-                                placeholder="••••••••",
-                                on_change=LoginState.set_password,
-                                width="100%",
-                                variant="surface",
-                                name="password",
-                            ),
-                            align_items="start",
-                            width="100%",
-                            spacing="1",
-                        ),
-
-                        # Botón de Acción (type="submit" para capturar Enter)
-                        rx.button(
-                            "Iniciar Sesión",
-                            loading=LoginState.is_loading,
-                            width="100%",
-                            size="3",
-                            cursor="pointer",
-                            margin_top="0.5em",
-                            bg=rx.color("accent", 9),
-                            color="white",
-                            _hover={"bg": rx.color("accent", 10)},
-                            type="submit",
-                        ),
-                        spacing="4",
-                        width="320px",
-                    ),
-                    on_submit=LoginState.handle_login,
-                    reset_on_submit=False,
-                ),
-                padding="2.5em",
-                variant="surface",
-                style={
-                    "box_shadow": "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                    "border_radius": "15px"
-                },
-            ),
-
-            # --- FOOTER INSTITUCIONAL ---
-            rx.vstack(
-                rx.text(
-                    "Ministerio de Educación y Derechos Humanos",
-                    size="1",
-                    color=rx.color("gray", 10),
-                    weight="medium",
-                ),
-                rx.text(
-                    "Provincia de Río Negro",
-                    size="1",
-                    color=rx.color("gray", 9),
-                ),
-                spacing="0",
-                align="center",
-                margin_top="2em",
-            ),
-
+            _login_header(),
+            _login_form(),
+            _login_footer(),
             spacing="2",
             align="center",
         ),
