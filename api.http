@@ -1,0 +1,57 @@
+# ==============================================================================
+# CONFIGURACIÓN GLOBAL
+# ==============================================================================
+@baseUrl = https://siga-dev.educacionrionegro.edu.ar
+@contentType = application/json
+
+# ==============================================================================
+# MÓDULO 01: AUTENTICACIÓN
+# ==============================================================================
+
+### 🔐 LOGIN DE USUARIO
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+    "email": "{{$dotenv TEST_USER_EMAIL}}",
+    "password": "{{$dotenv TEST_USER_PASSWORD}}"
+}
+
+###
+
+# ------------------------------------------------------------------------------
+# CAPTURA AUTOMÁTICA DEL TOKEN
+@token = {{login.response.body.data.access_token}}
+# ------------------------------------------------------------------------------
+
+
+# ==============================================================================
+# MÓDULO 02: PERFIL Y SEGURIDAD
+# ==============================================================================
+
+### 👤 VER MI PERFIL (Básico)
+# @name get_me
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{token}}
+
+
+### 🛡️ VER ROLES Y PERMISOS (Detallado)
+# @name get_roles
+GET {{baseUrl}}/users/me
+    ?fields=id,
+            first_name,
+            email,
+            role.id,
+            role.name,
+            role.description
+Authorization: Bearer {{token}}
+
+
+# ==============================================================================
+# MÓDULO 03: CONSULTAS SIGA (Ejemplos)
+# ==============================================================================
+
+### 📋 LISTAR TODOS LOS ROLES DISPONIBLES
+GET {{baseUrl}}/roles?fields=id,name
+Authorization: Bearer {{token}}
