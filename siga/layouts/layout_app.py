@@ -237,7 +237,7 @@ def layout_sidebar_drawer() -> rx.Component:
             left=rx.cond(AppLayoutState.sidebar_open, "0", "-260px"),
             width="250px",
             height="100vh",
-            bg="white",
+            bg=rx.color("gray", 1),
             z_index="11",
             transition="left 0.25s ease",
             box_shadow="lg",
