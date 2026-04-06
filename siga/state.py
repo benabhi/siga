@@ -108,7 +108,7 @@ class AppState(rx.State):
         self.user_role = ""
         self.user_permissions = {}
 
-        return rx.redirect("/")
+        return rx.redirect("/login")
 
     def login_action(self):
         """
