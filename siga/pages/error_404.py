@@ -1,26 +1,28 @@
 import reflex as rx
+from ..components.logo import siga_logo
+
 
 def page_404() -> rx.Component:
     return rx.center(
         rx.vstack(
-            # Un icono de advertencia o desconexión
-            rx.icon("circle-alert", size=80, color=rx.color("red", 9)),
+            siga_logo(size="5", color=rx.color("gray", 10)),
 
-            rx.heading("404", size="9", weight="bold"),
+            rx.heading("404", size="9", weight="bold", color=rx.color("accent", 9)),
 
             rx.text(
-                "La página que buscas no existe o ha sido movida.",
+                "La página que buscás no existe o ha sido movida.",
                 size="4",
                 color=rx.color("gray", 11),
                 text_align="center",
+                max_width="400px",
             ),
 
             rx.button(
-                "Volver al Panel Principal",
-                on_click=rx.redirect("/"), # O la ruta de tu login/dashboard
+                rx.icon("arrow-left", size=16),
+                "Volver al Inicio",
+                on_click=rx.redirect("/"),
                 size="3",
                 variant="soft",
-                color_scheme="indigo",
                 cursor="pointer",
                 margin_top="1em",
             ),
