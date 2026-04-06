@@ -36,6 +36,7 @@ class LoginState(rx.State):
             app_state.user_full_name = data.get("full_name", "Usuario")
             app_state.user_role = data.get("role", "")  # Ej: "Secretaria"
             app_state.user_email = data.get("email", "")
+            app_state.user_permissions = data.get("permissions", {})
             app_state.user_authenticated = True
 
             # Limpiamos flags de error
@@ -45,7 +46,11 @@ class LoginState(rx.State):
             destiny = "/"  # Por defecto al dashboard
 
             for item in MENU_ITEMS:
-                if item.get("is_home") and app_state.user_role in item.get("roles", []):
+                col = item.get("collection", "")
+                act = item.get("action", "")
+                has_auth = item.get("public") or app_state.user_permissions.get(col, {}).get(act, False)
+                
+                if item.get("is_home") and has_auth:
                     destiny = item["route"]
                     break
 

@@ -17,32 +17,43 @@ MENU_ITEMS = [
         "label": "Usuarios",
         "icon": "users",
         "route": "/usuarios",
-        "roles": ["Administrator"],
-        "is_home": True  # A donde va el Admin al entrar
+        "collection": "directus_users",
+        "action": "read",
+        "is_home": True
     },
     {
         "label": "Aspirantes",
         "icon": "user-plus",
         "route": "/secretaria/aspirantes",
-        "roles": ["Secretaria"],
-        "is_home": True  # A donde va Secretaria al entrar
+        "collection": "aspirantes",
+        "action": "read",
+        "is_home": True
     },
     {
         "label": "Alumnos",
         "icon": "graduation-cap",
         "route": "/secretaria/alumnos",
-        "roles": ["Secretaria"]
+        "collection": "alumnos",
+        "action": "read"
     },
     {
         "label": "Carreras",
         "icon": "book-open",
         "route": "/secretaria/carreras",
-        "roles": ["Secretaria"]
+        "collection": "carreras",
+        "action": "read"
     },
     {
         "label": "Profesores",
         "icon": "presentation",
         "route": "/secretaria/profesores",
-        "roles": ["Secretaria"]
+        "collection": "docentes", # o "profesores" de acuerdo a Directus
+        "action": "read"
+    },
+    {
+        "label": "Soporte Técnico",
+        "icon": "life-buoy",
+        "route": "/soporte", # Ruta de ejemplo que no valida permisos de base de datos
+        "public": True
     },
 ]

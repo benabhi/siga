@@ -37,20 +37,20 @@ app.add_page(page_404, route="/404")
 app.add_page(
     page_aspirantes,
     route="/secretaria/aspirantes",
-    on_load=AppState.check_login
+    on_load=AppState.check_page_permission("aspirantes", "read")
 )
 app.add_page(
     page_alumnos,
     route="/secretaria/alumnos",
-    on_load=AppState.check_login
+    on_load=AppState.check_page_permission("alumnos", "read")
 )
 app.add_page(
     page_carreras,
     route="/secretaria/carreras",
-    on_load=AppState.check_login
+    on_load=AppState.check_page_permission("carreras", "read")
 )
 app.add_page(
     page_docentes,
     route="/secretaria/profesores",
-    on_load=AppState.check_login
+    on_load=AppState.check_page_permission("docentes", "read")
 )

@@ -33,15 +33,15 @@ class AppLayoutState(rx.State):
 
     @rx.var
     async def filtered_menu(self) -> list[dict]:
-        """Filtra el MENU_ITEMS de config.py según el rol del AppState."""
-        # Obtenemos el estado global para saber el rol
+        """Filtra el MENU_ITEMS de config.py según los permisos del AppState."""
+        # Obtenemos el estado global para saber sus permisos de Directus
         actual_app_state = await self.get_state(AppState)
-        role = actual_app_state.user_role
+        user_perms = actual_app_state.user_permissions
 
-        # Filtramos la lista usando Python puro (esto no falla nunca)
+        # Filtramos la lista en memoria (Python puro)
         return [
             item for item in MENU_ITEMS
-            if role in item.get("roles", [])
+            if item.get("public") or user_perms.get(item.get("collection", ""), {}).get(item.get("action", ""), False)
         ]
 
 

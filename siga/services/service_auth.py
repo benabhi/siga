@@ -2,6 +2,7 @@ import requests
 # Importamos tus variables del .env cargadas en config.py
 from ..config import DIRECTUS_URL, DIRECTUS_ADMIN_TOKEN
 from .service_logger import app_logger
+from .service_permissions import fetch_permissions
 
 def login_service(email, password):
     """
@@ -10,7 +11,7 @@ def login_service(email, password):
     2. Consulta datos y rol usando el TOKEN ADMIN (evita error de permisos).
     """
     app_logger.debug(f"Iniciando login para usuario: {email}")
-    
+
     auth_url = f"{DIRECTUS_URL}/auth/login"
     users_url = f"{DIRECTUS_URL}/users"
 
@@ -27,7 +28,7 @@ def login_service(email, password):
         auth_res.raise_for_status()
         token_data = auth_res.json()["data"]
         user_access_token = token_data["access_token"]
-        
+
         app_logger.debug(f"Paso 1 exitoso. Token obtenido para {email}")
 
         # --- PASO 2: OBTENER PERFIL CON TOKEN ADMIN ---
@@ -35,9 +36,11 @@ def login_service(email, password):
         headers = {"Authorization": f"Bearer {DIRECTUS_ADMIN_TOKEN}"}
 
         # Filtramos por el email del usuario que se acaba de loguear
+        # En Directus 10+, las policies y permissions cuelgan del role de manera anidada.
+        # Solicitando esto, Directus hace el JOIN automáticamente y ahorramos un viaje HTTP.
         params = {
             "filter[email][_eq]": email,
-            "fields": "id,first_name,last_name,email,role.name"
+            "fields": "id,first_name,last_name,email,role.name,role.id,role.policies.policy.permissions.collection,role.policies.policy.permissions.action"
         }
 
         user_res = requests.get(users_url, headers=headers, params=params, timeout=10)
@@ -52,13 +55,18 @@ def login_service(email, password):
         app_logger.debug(f"Datos crudos del perfil de usuario obtenidos de Directus: {user_data}")
         app_logger.info(f"Usuario {email} autenticado exitosamente con el rol: {user_data.get('role', {}).get('name')}")
 
-        # --- PASO 3: RETORNO DE DATOS ---
+        # --- PASO 3: PARSEAR PERMISOS GRANULARES ---
+        # Delegamos el diccionario gigante al servicio especializado para que lo triture
+        user_permissions = fetch_permissions(user_data)
+
+        # --- PASO 4: RETORNO DE DATOS ---
         return {
             "access_token": user_access_token, # Importante: Devolvemos el de ELLA
             "full_name": f"{user_data.get('first_name', '')} {user_data.get('last_name', '')}".strip(),
             "email": user_data.get("email"),
             "role": user_data.get("role", {}).get("name", "user"),
-            "user_id": user_data.get("id")
+            "user_id": user_data.get("id"),
+            "permissions": user_permissions
         }
 
     except requests.exceptions.ConnectionError as e:
@@ -71,6 +79,6 @@ def login_service(email, password):
                 app_logger.error(f"Detalles del error HTTP devuelto por Directus: {e.response.text}")
         except:
             pass
-            
+
         app_logger.error(f"Excepción general en la autenticación para {email}: {str(e)}")
         raise Exception(f"Falla en autenticación: {str(e)}")

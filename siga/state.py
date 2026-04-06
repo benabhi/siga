@@ -10,6 +10,7 @@ class AppState(rx.State):
     user_full_name: str = "Invitado"
     user_email: str = ""
     user_role: str = ""  # "Administrator", "Secretaria", etc.
+    user_permissions: dict = {}
 
     # --- UI & NOTIFICATIONS ---
     # Bandera para mostrar el toast si el usuario es rebotado al login
@@ -43,6 +44,31 @@ class AppState(rx.State):
             self.show_auth_error = True
             return rx.redirect("/login")
 
+    def check_page_permission(self, collection: str, action: str):
+        """
+        Middleware avanzado para páginas. Valida sesión y permisos.
+        """
+        # Primero validamos si está logueado
+        if not self.user_authenticated:
+            self.show_auth_error = True
+            return rx.redirect("/login")
+            
+        # Luego validamos permisos granulares
+        col_perms = self.user_permissions.get(collection, {})
+        has_perm = col_perms.get(action, False)
+        
+        if not has_perm:
+            # Usuario autenticado pero sin la capacidad Directus para esta ruta
+            return [
+                rx.toast.error(
+                    "Acceso Restringido", 
+                    description="No cuenta con los permisos necesarios para acceder a esta área.",
+                    icon="lock",
+                    duration=5000
+                ),
+                rx.redirect("/") # Puedes redirigir a dashboard o landing
+            ]
+
     def reset_auth_error(self):
         """
         Si hubo un error de redirección, lo limpia y lanza el aviso.
@@ -69,6 +95,7 @@ class AppState(rx.State):
         self.user_full_name = "Invitado"
         self.user_email = ""
         self.user_role = ""
+        self.user_permissions = {}
 
         return rx.redirect("/")
 
