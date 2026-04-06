@@ -38,13 +38,7 @@ Authorization: Bearer {{token}}
 
 ### 🛡️ VER ROLES Y PERMISOS (Detallado)
 # @name get_roles
-GET {{baseUrl}}/users/me
-    ?fields=id,
-            first_name,
-            email,
-            role.id,
-            role.name,
-            role.description
+GET {{baseUrl}}/users/me?fields=id,first_name,email,role.id,role.name,role.description
 Authorization: Bearer {{token}}
 
 
@@ -54,4 +48,13 @@ Authorization: Bearer {{token}}
 
 ### 📋 LISTAR TODOS LOS ROLES DISPONIBLES
 GET {{baseUrl}}/roles?fields=id,name
+Authorization: Bearer {{token}}
+
+
+### 🔍 VER MIS PERMISOS (Sin filtrar por el campo prohibido)
+GET {{baseUrl}}/permissions?filter[collection][_eq]=aspirantes
+Authorization: Bearer {{token}}
+
+### 🛡️ TRAER TODOS LOS PERMISOS DE MI ROL (Secretaría)
+GET {{baseUrl}}/permissions
 Authorization: Bearer {{token}}

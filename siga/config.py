@@ -5,7 +5,8 @@ load_dotenv()
 
 DIRECTUS_URL = os.getenv("DIRECTUS_URL", "https://siga-dev.educacionrionegro.edu.ar")
 DIRECTUS_ADMIN_TOKEN = os.getenv("DIRECTUS_ADMIN_TOKEN")
-DEBUG = os.getenv("DEBUG", "True").lower() == "true"
+#DEBUG = os.getenv("DEBUG", "True").lower() == "true"
+DEBUG = True
 
 # ==============================================================================
 # CONFIGURACIÓN DEL MENÚ Y RUTAS
