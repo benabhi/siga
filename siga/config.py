@@ -13,17 +13,11 @@ DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
 MENU_ITEMS = [
     {
-        "label": "Dashboard",
-        "icon": "layout-grid",
-        "route": "/",
-        "roles": ["Administrator"],
-        "is_home": True  # A donde va el Admin al entrar
-    },
-    {
         "label": "Usuarios",
         "icon": "users",
         "route": "/usuarios",
-        "roles": ["Administrator"]
+        "roles": ["Administrator"],
+        "is_home": True  # A donde va el Admin al entrar
     },
     {
         "label": "Aspirantes",

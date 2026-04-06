@@ -1,4 +1,4 @@
-"""Welcome to Reflex! This file outlines the steps to create a basic app."""
+"""SIGA - Sistema Integral de Gestión Académica."""
 
 import reflex as rx
 from rxconfig import config
@@ -6,6 +6,7 @@ from .state import AppState
 from .pages.secretaria import page_alumnos, page_aspirantes, page_carreras, page_docentes
 from .pages.error_404 import page_404
 from .pages.login import login_page
+from .pages.landing import landing_page
 
 app = rx.App(
     theme=rx.theme(
@@ -23,20 +24,10 @@ app = rx.App(
     ),
 )
 
-# TODO: Mover luego donde corresponde
-def index_page():
-    return rx.text("Contenido del Dashboard")
-
-
-# Registro de la página de error
-app.add_page(page_404, route="/404")
+# Páginas públicas
+app.add_page(landing_page, route="/")
 app.add_page(login_page, route="/login")
-
-app.add_page(
-    index_page,
-    route="/",
-    on_load=AppState.check_login
-)
+app.add_page(page_404, route="/404")
 
 app.add_page(
     page_aspirantes,

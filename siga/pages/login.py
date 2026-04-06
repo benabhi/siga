@@ -2,6 +2,7 @@ import reflex as rx
 from ..state import AppState
 from ..services.auth_service import login_service
 from ..config import MENU_ITEMS
+from ..components.logo import siga_logo
 
 # ==============================================================================
 # STATE DE LOGIN
@@ -71,15 +72,7 @@ class LoginState(rx.State):
 def _login_header() -> rx.Component:
     """Logo e identidad institucional."""
     return rx.vstack(
-        rx.center(
-            rx.icon("graduation-cap", size=40, color="white"),
-            width="80px",
-            height="80px",
-            border_radius="20px",
-            bg=rx.color("accent", 9),
-            box_shadow=f"0 10px 15px -3px {rx.color('accent', 4)}",
-        ),
-        rx.heading("SIGA Viedma", size="8", weight="bold"),
+        siga_logo(size="8", color=rx.color("gray", 12)),
         rx.text(
             "Sistema de Gestión Académica",
             color=rx.color("gray", 11),

@@ -70,7 +70,7 @@ class AppState(rx.State):
         self.user_email = ""
         self.user_role = ""
 
-        return rx.redirect("/login")
+        return rx.redirect("/")
 
     def login_action(self):
         """

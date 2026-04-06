@@ -1,6 +1,7 @@
 import reflex as rx
 from ..state import AppState
 from ..config import MENU_ITEMS
+from ..components.logo import siga_logo
 
 # ==============================================================================
 # STATE DE LAYOUT
@@ -51,11 +52,7 @@ class AppLayoutState(rx.State):
 def _sidebar_header() -> rx.Component:
     """Header del sidebar con icono y título SIGA."""
     return rx.center(
-        rx.hstack(
-            rx.icon("graduation-cap", size=26, color="white"),
-            rx.heading("SIGA", size="5", weight="bold", color="white"),
-            spacing="3",
-        ),
+        siga_logo(size="5", color="white"),
         width="100%",
         height="80px",
         bg=rx.color("accent", 9),
