@@ -124,7 +124,7 @@ def _sidebar_menu() -> rx.Component:
 def _sidebar_footer() -> rx.Component:
     """Footer con datos del AppState global."""
 
-    return rx.vstack(        
+    return rx.vstack(
         rx.menu.root(
             rx.menu.trigger(
                 rx.hstack(
@@ -268,6 +268,7 @@ def _header(title: str) -> rx.Component:
         align="center",
         justify="between",
         height="80px",
+        min_height="80px",
         width="100%",
         padding_x="2em",
         bg=rx.color("gray", 1),
