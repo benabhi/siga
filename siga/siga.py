@@ -25,7 +25,7 @@ app = rx.App(
         radius="medium",
 
         # Forzar modo claro u oscuro
-        appearance="light",
+        appearance="dark",
     ),
 )
 
