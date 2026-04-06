@@ -137,6 +137,7 @@ def _features() -> rx.Component:
             ),
             spacing="2",
             align="center",
+            width="100%",
             margin_bottom="2em",
         ),
         rx.grid(
