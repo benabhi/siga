@@ -8,7 +8,7 @@ Plataforma centralizada para la administración de inscripciones, alumnos, carre
 
 Asegurate de tener instalados:
 
-- **Python** 3.10 o superior.
+- **Python** 3.11 o superior.
 - **Git** para clonar el repositorio.
 
 ---
@@ -82,11 +82,4 @@ La aplicación estará disponible localmente en **http://localhost:3000**.
   - `state.py`: Manejo del estado global de la app y lógica de autenticación.
   - `config.py`: Variables maestras o items del menú.
 
----
 
-## 🔧 Scripts Útiles
-
-A futuro, en caso de agregar modelos de base de datos nativos de Reflex, se usaría:
-- `reflex db init`: Inicializa la base de datos de Reflex.
-- `reflex db makemigrations`: Genera las migraciones tras un cambio en modelos.
-- `reflex db migrate`: Aplica las migraciones.
