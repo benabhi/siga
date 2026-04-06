@@ -30,8 +30,19 @@ app = rx.App(
 )
 
 # Páginas públicas
-app.add_page(page_landing, route="/")
-app.add_page(page_login, route="/login")
+app.add_page(
+    page_landing, 
+    route="/", 
+    title="SIGA - Landing",
+    on_load=AppState.check_already_logged_in
+)
+
+app.add_page(
+    page_login, 
+    route="/login", 
+    title="SIGA - Login",
+    on_load=AppState.check_already_logged_in
+)
 app.add_page(page_404, route="/404")
 
 app.add_page(

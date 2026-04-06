@@ -1,4 +1,5 @@
 import reflex as rx
+from .config import MENU_ITEMS
 
 class AppState(rx.State):
     # --- AUTH STATE ---
@@ -58,16 +59,26 @@ class AppState(rx.State):
         has_perm = col_perms.get(action, False)
         
         if not has_perm:
-            # Usuario autenticado pero sin la capacidad Directus para esta ruta
-            return [
-                rx.toast.error(
-                    "Acceso Restringido", 
-                    description="No cuenta con los permisos necesarios para acceder a esta área.",
-                    icon="lock",
-                    duration=5000
-                ),
-                rx.redirect("/") # Puedes redirigir a dashboard o landing
-            ]
+            # Estrategia anti-Information Disclosure: Si está autenticado pero no tiene permiso, 
+            # simulamos que la página no existe enviándolo calladamente a un 404.
+            return rx.redirect("/404")
+
+    def check_already_logged_in(self):
+        """
+        Middleware inverso para páginas públicas (Login, Landing).
+        Si el usuario ya está autenticado, lo sacamos de allí y lo enviamos a su Dashboard.
+        """
+        if self.user_authenticated:
+            destiny = "/"
+            for item in MENU_ITEMS:
+                item_col = item.get("collection", "")
+                item_act = item.get("action", "")
+                item_auth = item.get("public") or self.user_permissions.get(item_col, {}).get(item_act, False)
+                if item.get("is_home") and item_auth:
+                    destiny = item["route"]
+                    break
+            
+            return rx.redirect(destiny)
 
     def reset_auth_error(self):
         """
