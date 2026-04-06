@@ -229,7 +229,7 @@ def _footer() -> rx.Component:
 # PÁGINA PÚBLICA
 # ==============================================================================
 
-def landing_page() -> rx.Component:
+def page_landing() -> rx.Component:
     """Página de entrada pública del sistema SIGA."""
     return rx.box(
         # --- SECCIÓN HERO CON GRADIENTE ---

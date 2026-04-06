@@ -3,10 +3,15 @@
 import reflex as rx
 from rxconfig import config
 from .state import AppState
-from .pages.secretaria import page_alumnos, page_aspirantes, page_carreras, page_docentes
-from .pages.error_404 import page_404
-from .pages.login import login_page
-from .pages.landing import landing_page
+from .pages import (
+    page_404,
+    page_login,
+    page_landing,
+    page_alumnos,
+    page_aspirantes,
+    page_carreras,
+    page_docentes,
+)
 
 app = rx.App(
     theme=rx.theme(
@@ -25,8 +30,8 @@ app = rx.App(
 )
 
 # Páginas públicas
-app.add_page(landing_page, route="/")
-app.add_page(login_page, route="/login")
+app.add_page(page_landing, route="/")
+app.add_page(page_login, route="/login")
 app.add_page(page_404, route="/404")
 
 app.add_page(

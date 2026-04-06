@@ -176,7 +176,7 @@ def _login_footer() -> rx.Component:
 # PÁGINA PÚBLICA
 # ==============================================================================
 
-def login_page() -> rx.Component:
+def page_login() -> rx.Component:
     """Renderiza la página de login centrada y temática."""
     return rx.center(
         rx.toast.provider(),
