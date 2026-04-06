@@ -137,7 +137,7 @@ def _toolbar() -> rx.Component:
     )
 
 
-def _estado_badge(estado) -> rx.Component:
+def _status_badge(estado) -> rx.Component:
     """Badge de color según estado del aspirante."""
     return rx.cond(
         estado == "pendiente",
@@ -165,7 +165,7 @@ def _table_row(aspirante: dict) -> rx.Component:
         rx.table.cell(aspirante["apellido"]),
         rx.table.cell(aspirante["fecha_nacimiento"]),
         rx.table.cell(aspirante["email"]),
-        rx.table.cell(_estado_badge(aspirante["estado"])),
+        rx.table.cell(_status_badge(aspirante["estado"])),
         rx.table.cell(aspirante["fecha_inscripcion"]),
     )
 
