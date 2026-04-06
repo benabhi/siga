@@ -1,7 +1,7 @@
 import requests
 # Importamos tus variables del .env cargadas en config.py
 from ..config import DIRECTUS_URL, DIRECTUS_ADMIN_TOKEN
-from .logger_service import app_logger
+from .service_logger import app_logger
 
 def login_service(email, password):
     """

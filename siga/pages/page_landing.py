@@ -1,5 +1,5 @@
 import reflex as rx
-from ..components.logo import siga_logo
+from ..components import siga_logo
 
 
 # ==============================================================================

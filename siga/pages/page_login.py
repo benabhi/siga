@@ -1,8 +1,8 @@
 import reflex as rx
 from ..state import AppState
-from ..services.auth_service import login_service
+from ..services import login_service
 from ..config import MENU_ITEMS
-from ..components.logo import siga_logo
+from ..components import siga_logo
 
 # ==============================================================================
 # STATE DE LOGIN
