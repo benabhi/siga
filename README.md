@@ -46,7 +46,7 @@ pip install -r requirements.txt
 
 ### 4. Configurar las variables de entorno
 
-El proyecto se comunica con un backend (ej: Directus). Necesitás configurar el archivo de entorno. 
+El proyecto se comunica con un backend (ej: Directus). Necesitás configurar el archivo de entorno.
 
 - Creá un archivo llamado `.env` en la raíz del proyecto.
 - Agregá las siguientes variables (completalas con los datos reales que uses en tu backend de prueba):
@@ -79,6 +79,7 @@ La aplicación estará disponible localmente en **http://localhost:3000**.
   - `layouts/`: Plantillas principales (estructura general, menús, sidebar).
   - `pages/`: Vistas de la aplicación ordenadas por roles o módulos (ej: `/secretaria`).
   - `services/`: Comunicación con APIs externas (ej: Directus).
+  - `scripts/`: Scripts de uso general (ej: seeders).
   - `state.py`: Manejo del estado global de la app y lógica de autenticación.
   - `config.py`: Variables maestras o items del menú.
 
