@@ -50,10 +50,10 @@ MENU_ITEMS = [
         "collection": "docentes", # o "profesores" de acuerdo a Directus
         "action": "read"
     },
-    {
-        "label": "Soporte Técnico",
-        "icon": "life-buoy",
-        "route": "/soporte", # Ruta de ejemplo que no valida permisos de base de datos
-        "public": True
-    },
+    #{
+    #    "label": "Soporte Técnico",
+    #    "icon": "life-buoy",
+    #    "route": "/soporte", # Ruta de ejemplo que no valida permisos de base de datos
+    #    "public": True
+    #},
 ]
