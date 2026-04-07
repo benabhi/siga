@@ -403,12 +403,24 @@ def page_aspirantes() -> rx.Component:
                     variant="surface",
                     width=["100%", "100%", "180px"]
                 ),
-                actions=rx.button(
-                    rx.icon("user-plus", size=16),
-                    "Nuevo Aspirante",
-                    variant="solid",
-                    cursor="pointer",
-                    on_click=AspirantesState.open_create,
+                actions=rx.hstack(
+                    rx.icon_button(
+                        "refresh-cw",
+                        variant="soft",
+                        color_scheme="gray",
+                        cursor="pointer",
+                        loading=AspirantesState.is_loading,
+                        on_click=AspirantesState.load_data,
+                    ),
+                    rx.button(
+                        rx.icon("user-plus", size=16),
+                        "Nuevo Aspirante",
+                        variant="solid",
+                        cursor="pointer",
+                        on_click=AspirantesState.open_create,
+                    ),
+                    spacing="3",
+                    align="center"
                 ),
 
                 # Controles Paginación
