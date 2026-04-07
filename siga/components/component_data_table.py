@@ -5,7 +5,7 @@ Unifica la barra de controles, la tabla responsiva y el paginador.
 La paginación (has_prev, has_next, total_pages, showing_from/to) se
 calcula internamente; solo necesitás pasar page, page_size y total_items.
 
-==================== EJEMPLO DE USO ====================
+# EJEMPLO DE USO
 
 from ...components import data_table
 
@@ -43,8 +43,6 @@ data_table(
     on_prev=MiState.prev_page,
     on_next=MiState.next_page,
 )
-
-=======================================================
 """
 
 import reflex as rx
