@@ -43,7 +43,7 @@ class AspirantesState(rx.State):
                 search=self.search_query,
                 estado=self.filter_estado
             )
-            
+
             # Reflex mapeara los dicts recuperados a componentes en la tabla
             self.aspirantes = result.get("data", [])
             self.total_filtered = result.get("total_items", 0)
@@ -55,12 +55,12 @@ class AspirantesState(rx.State):
     async def set_search(self, value: str):
         self.search_query = value
         self.page = 1
-        await self.load_data()
+        return self.load_data()
 
     async def set_filter(self, value: str):
         self.filter_estado = value
         self.page = 1
-        await self.load_data()
+        return self.load_data()
 
     async def next_page(self):
         # La validación de si puede ir a la siguiente página está en el UI (disabled),
@@ -68,12 +68,12 @@ class AspirantesState(rx.State):
         _total_pages = (self.total_filtered + self.page_size - 1) // self.page_size
         if self.page < _total_pages:
             self.page += 1
-            await self.load_data()
+            return self.load_data()
 
     async def prev_page(self):
         if self.page > 1:
             self.page -= 1
-            await self.load_data()
+            return self.load_data()
 
     # --- Controladores del Drawer Muli-Modo ---
     def open_detail(self, aspirante: dict):
@@ -109,6 +109,7 @@ def _status_badge(estado: rx.Var[str]) -> rx.Component:
         estado_str,
         ("pendiente", rx.badge("Pendiente", color_scheme="amber", variant="soft", radius="full")),
         ("sin_validar", rx.badge("Sin validar", color_scheme="red", variant="soft", radius="full")),
+        ("admitido", rx.badge("Admitido", color_scheme="green", variant="soft", radius="full")),
         # Cualquier otro estado cae por defecto al accent general (grass/jade serian correctos si existieran más estados positivos)
         rx.badge(estado_str.capitalize(), variant="soft", radius="full")
     )
@@ -226,7 +227,7 @@ def _doc_view(uuid_var, label: str, icon: str) -> rx.Component:
     # Para visualizar un archivo de Directus desde un tag publico, se usa `?access_token=`
     # para bypassear la cabecera Authorization
     url = f"{DIRECTUS_URL}/assets/{uuid_var}?access_token={AppState.access_token}"
-    
+
     return rx.cond(
         uuid_var, # ¿Existe el UUID?
         rx.hstack(
@@ -310,7 +311,7 @@ def _view_content() -> rx.Component:
             _doc_view(AspirantesState.selected["dni_dorso"], "DNI Dorso", "image"),
             _doc_view(AspirantesState.selected["analitico"], "Analítico", "file-text"),
         ),
-        
+
         spacing="4",
         width="100%",
         padding_top="1em"
@@ -349,7 +350,7 @@ def _detail_drawer() -> rx.Component:
                         _view_content(),
                         rx.box(rx.text("Formulario de creación/edición pendiente...", color=rx.color("gray", 10), padding_y="1em"))
                     ),
-                    
+
                     spacing="0",
                     width="100%",
                     height="100%",
@@ -397,7 +398,7 @@ def page_aspirantes() -> rx.Component:
                     variant="surface",
                 ),
                 filters=rx.select(
-                    ["todos", "pendiente", "sin_validar"],
+                    ["todos", "sin_validar", "pendiente", "admitido"],
                     default_value="todos",
                     on_change=AspirantesState.set_filter,
                     variant="surface",
@@ -430,7 +431,7 @@ def page_aspirantes() -> rx.Component:
                 on_prev=AspirantesState.prev_page,
                 on_next=AspirantesState.next_page,
             ),
-            
+
             _detail_drawer(),
 
             width="100%",
